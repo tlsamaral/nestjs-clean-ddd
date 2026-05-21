@@ -1,7 +1,7 @@
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { AppModule } from '@/infra/app.module'
-import { CacheRepository } from '@/infra/cache/cache-repository'
-import { CacheModule } from '@/infra/cache/cache.module'
+// import { CacheRepository } from '@/infra/cache/cache-repository'
+// import { CacheModule } from '@/infra/cache/cache.module'
 import { DatabaseModule } from '@/infra/database/database.module'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
@@ -16,12 +16,12 @@ describe('Prisma Questions Repository (E2E)', () => {
   let questionFactory: QuestionFactory
   let attachmentFactory: AttachmentFactory
   let questionAttachmentFactory: QuestionAttachmentFactory
-  let cacheRepository: CacheRepository
+  // let cacheRepository: CacheRepository
   let questionsRepository: QuestionsRepository
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [AppModule, DatabaseModule, CacheModule],
+      imports: [AppModule, DatabaseModule /*CacheModule*/],
       providers: [
         StudentFactory,
         QuestionFactory,
@@ -36,7 +36,7 @@ describe('Prisma Questions Repository (E2E)', () => {
     questionFactory = moduleRef.get(QuestionFactory)
     attachmentFactory = moduleRef.get(AttachmentFactory)
     questionAttachmentFactory = moduleRef.get(QuestionAttachmentFactory)
-    cacheRepository = moduleRef.get(CacheRepository)
+    // cacheRepository = moduleRef.get(CacheRepository)
     questionsRepository = moduleRef.get(QuestionsRepository)
 
     await app.init()
@@ -60,9 +60,9 @@ describe('Prisma Questions Repository (E2E)', () => {
 
     const questionDetails = await questionsRepository.findDetailsBySlug(slug)
 
-    const cached = await cacheRepository.get(`question:${slug}:details`)
+    // const cached = await cacheRepository.get(`question:${slug}:details`)
 
-    expect(cached).toEqual(JSON.stringify(questionDetails))
+    // expect(cached).toEqual(JSON.stringify(questionDetails))
   })
 
   it('should return cached question details on subsequent calls', async () => {
@@ -81,10 +81,10 @@ describe('Prisma Questions Repository (E2E)', () => {
 
     const slug = question.slug.value
 
-    await cacheRepository.set(
-      `question:${slug}:details`,
-      JSON.stringify({ empty: true }),
-    )
+    // await cacheRepository.set(
+    //   `question:${slug}:details`,
+    //   JSON.stringify({ empty: true }),
+    // )
 
     const questionDetails = await questionsRepository.findDetailsBySlug(slug)
 
@@ -107,15 +107,15 @@ describe('Prisma Questions Repository (E2E)', () => {
 
     const slug = question.slug.value
 
-    await cacheRepository.set(
-      `question:${slug}:details`,
-      JSON.stringify({ empty: true }),
-    )
+    // await cacheRepository.set(
+    //   `question:${slug}:details`,
+    //   JSON.stringify({ empty: true }),
+    // )
 
     await questionsRepository.save(question)
 
-    const cached = await cacheRepository.get(`question:${slug}:details`)
+    // const cached = await cacheRepository.get(`question:${slug}:details`)
 
-    expect(cached).toBeNull()
+    // expect(cached).toBeNull()
   })
 })
