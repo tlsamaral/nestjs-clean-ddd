@@ -1,14 +1,14 @@
-import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
-import { AppModule } from '@/infra/app.module'
-// import { CacheRepository } from '@/infra/cache/cache-repository'
-// import { CacheModule } from '@/infra/cache/cache.module'
-import { DatabaseModule } from '@/infra/database/database.module'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { AttachmentFactory } from 'test/factories/make-attachment'
 import { QuestionFactory } from 'test/factories/make-question'
 import { QuestionAttachmentFactory } from 'test/factories/make-question-attachments'
 import { StudentFactory } from 'test/factories/make-student'
+import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
+import { AppModule } from '@/infra/app.module'
+// import { CacheRepository } from '@/infra/cache/cache-repository'
+// import { CacheModule } from '@/infra/cache/cache.module'
+import { DatabaseModule } from '@/infra/database/database.module'
 
 describe('Prisma Questions Repository (E2E)', () => {
   let app: INestApplication
